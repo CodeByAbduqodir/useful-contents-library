@@ -1,15 +1,18 @@
 FROM php:8.3-fpm
 
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+   RUN apt-get update && apt-get install -y \
+       libpq-dev \
+       zip \
+       unzip \
+       git \
+       && docker-php-ext-install pdo pdo_pgsql
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+   COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+   WORKDIR /app
 
-COPY . .
+   COPY . .
 
-RUN composer install
+   RUN composer install
 
-CMD ["php-fpm"]
+   CMD ["php-fpm"]
